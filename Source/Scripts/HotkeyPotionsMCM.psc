@@ -10,7 +10,8 @@ EndProperty
 int[] Property iHotkeys Auto Hidden
 
 ; Primary Attributes
-bool Property bAllowWaste Auto Hidden
+bool Property bAllowWaste = true Auto Hidden
+bool Property bAllowImpure = false Auto Hidden
 float[] Property fInstant Auto Hidden
 
 ; =============================================================
@@ -65,6 +66,7 @@ Event OnPageReset(string page)
   SetCursorPosition(1)
   AddHeaderOption("$HP_PrimAtt")
   AddToggleOptionST("AllowWaste", "$HP_AllowWaste", bAllowWaste)
+  AddToggleOptionST("AllowImpure", "$HP_AllowImpure", bAllowImpure)
   int n = 0
   While(n < fInstant.Length)
     AddSliderOptionST("DisableTimed_" + n, "$HP_DisableTimed_" + n, fInstant[n], "{1}%")
@@ -156,5 +158,19 @@ State AllowWaste
   EndEvent
   Event OnHighlightST()
     SetInfoText("$HP_AllowWasteHighlight")
+  EndEvent
+EndState
+
+State AllowImpure
+  Event OnSelectST()
+    bAllowImpure = !bAllowImpure
+    SetToggleOptionValueST(bAllowImpure)
+  EndEvent
+  Event OnDefaultST()
+    bAllowImpure = false
+    SetToggleOptionValueST(bAllowImpure)
+  EndEvent
+  Event OnHighlightST()
+    SetInfoText("$HP_AllowImpureHighlight")
   EndEvent
 EndState
